@@ -28,7 +28,6 @@ class FlutterUmengAnalyticsSdk {
       'crashReportEnabled': crashReportEnabled,
       'logEnabled': logEnabled,
     };
-    print(params);
     await _channel.invokeMethod('initAnalyticsSdk', params);
   }
 
@@ -36,8 +35,8 @@ class FlutterUmengAnalyticsSdk {
   /// `latitude` 纬度.
   /// `longitude` 经度.
   static Future<void> setLocation({
-    latitude: double,
-    longitude: double,
+    double latitude,
+    double longitude,
   }) async {
     await _channel.invokeMethod('setLocation', {
       'latitude': latitude,
@@ -60,14 +59,14 @@ class FlutterUmengAnalyticsSdk {
   /// 判断设备是否越狱，依据是否存在 apt 和 Cydia.app
   /// 仅 iOS, Android 永远返回 false
   static Future<bool> get isJailbroken async {
-    final bool result = await _channel.invokeMethod('isJailbroken');
+    final bool result = await _channel.invokeMethod('getIsJailbroken');
     return result;
   }
 
   /// 判断 App 是否被破解
   /// 仅 iOS, Android 永远返回 false
   static Future<bool> get isPirated async {
-    final bool result = await _channel.invokeMethod('isPirated');
+    final bool result = await _channel.invokeMethod('getIsPirated');
     return result;
   }
 
@@ -79,8 +78,8 @@ class FlutterUmengAnalyticsSdk {
   /// `pageName` 统计的页面名称.
   /// `seconds` 单位为秒，int型.
   static Future<void> logPageView({
-    pageName: String,
-    seconds: int,
+    String pageName,
+    int seconds,
   }) async {
     await _channel.invokeMethod('logPageView', {
       'pageName': pageName,
@@ -93,7 +92,7 @@ class FlutterUmengAnalyticsSdk {
   /// 在该页面展示时调用 beginLogPageView ，当退出该页面时调用 endLogPageView 。
   /// `pageName` 统计的页面名称.
   static Future<void> beginLogPageView({
-    pageName: String,
+    String pageName,
   }) async {
     await _channel.invokeMethod('beginLogPageView', {
       'pageName': pageName,
@@ -105,7 +104,7 @@ class FlutterUmengAnalyticsSdk {
   /// 在该页面展示时调用 beginLogPageView ，当退出该页面时调用 endLogPageView
   /// `pageName` 统计的页面名称.
   static Future<void> endLogPageView({
-    pageName: String,
+    String pageName,
   }) async {
     await _channel.invokeMethod('endLogPageView', {
       'pageName': pageName,
@@ -126,10 +125,10 @@ class FlutterUmengAnalyticsSdk {
   ///   2. eventId、attributes 中 key 和 value 都不能使用空格和特殊字符，必须是 String ,且长度不能超过255个字符（否则将截取前255个字符）
   ///   3. id， ts， du 是保留字段，不能作为 eventId 及 key 的名称
   static Future<void> event({
-    eventId: String,
-    label: String,
-    attributes: dynamic,
-    counter: int,
+    String eventId,
+    String label,
+    dynamic attributes,
+    int counter,
   }) async {
     await _channel.invokeMethod('event', {
       'eventId': eventId,
@@ -143,9 +142,9 @@ class FlutterUmengAnalyticsSdk {
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
   /// beginEvent , endEvent 要配对使用,也可以自己计时后通过 durations 参数传递进来
   static Future<void> beginEvent({
-    eventId: String,
-    label: String,
-    attributes: dynamic,
+    String eventId,
+    String label,
+    dynamic attributes,
   }) async {
     await _channel.invokeMethod('beginEvent', {
       'eventId': eventId,
@@ -158,24 +157,22 @@ class FlutterUmengAnalyticsSdk {
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
   /// beginEvent , endEvent 要配对使用,也可以自己计时后通过 durations 参数传递进来
   static Future<void> endEvent({
-    eventId: String,
-    label: String,
-    attributes: dynamic,
+    String eventId,
+    String label,
   }) async {
     await _channel.invokeMethod('endEvent', {
       'eventId': eventId,
       'label': label,
-      'attributes': attributes,
     });
   }
 
   /// 自定义事件，自己计时，需要传毫秒进来
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
   static Future<void> eventDurations({
-    eventId: String,
-    millisecond: int,
-    label: String,
-    attributes: dynamic,
+    String eventId,
+    int millisecond,
+    String label,
+    dynamic attributes,
   }) async {
     await _channel.invokeMethod('eventDurations', {
       'eventId': eventId,
@@ -193,8 +190,8 @@ class FlutterUmengAnalyticsSdk {
   /// `puid` 用户 ID
   /// `provider`  账户提供者 : 不能以下划线 "_" 开头，使用大写字母和数字标识; 如果是上市公司，建议使用股票代码。
   static Future<void> profileSignIn({
-    puid: String,
-    provider: String,
+    String puid,
+    String provider,
   }) async {
     await _channel.invokeMethod('profileSignIn', {
       'puid': puid,
