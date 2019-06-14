@@ -1,6 +1,5 @@
 # Miscellaneous
 *.class
-*.lock
 *.log
 *.pyc
 *.swp
@@ -26,7 +25,7 @@
 .packages
 .pub-cache/
 .pub/
-build/
+/build/
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -38,7 +37,6 @@ build/
 **/android/**/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
-ios/Podfile.lock
 **/ios/**/*.mode1v3
 **/ios/**/*.mode2v3
 **/ios/**/*.moved-aside
@@ -70,8 +68,3 @@ ios/Podfile.lock
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-lib/generated/
-
-tools/iconfont/dist
-
-**/node_modules
