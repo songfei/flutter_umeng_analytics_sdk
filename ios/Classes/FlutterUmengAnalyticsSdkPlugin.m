@@ -29,6 +29,9 @@
   else if ([@"getDeviceIDForIntegration" isEqualToString:call.method]) {
       [self handleGetDeviceIDForIntegration:call result:result];
   }
+  else if ([@"getMacAddress" isEqualToString:call.method]) {
+      [self handleGetMacAddress:call result:result];
+  }
   else if ([@"getIsJailbroken" isEqualToString:call.method]) {
       [self handleGetIsJailbroken:call result:result];
   }
@@ -50,14 +53,17 @@
   else if ([@"beginEvent" isEqualToString:call.method]) {
       [self handleBeginEvent:call result:result];
   }
+  else if ([@"endEvent" isEqualToString:call.method]) {
+      [self handleEndEvent:call result:result];
+  }
   else if ([@"eventDurations" isEqualToString:call.method]) {
       [self handleEventDurations:call result:result];
   }
   else if ([@"profileSignIn" isEqualToString:call.method]) {
       [self handleProfileSignIn:call result:result];
   }
-  else if ([@"profileSignIn" isEqualToString:call.method]) {
-      [self handleProfileSignIn:call result:result];
+  else if ([@"profileSignOff" isEqualToString:call.method]) {
+      [self handleProfileSignOff:call result:result];
   }
   else {
     result(FlutterMethodNotImplemented);
@@ -142,6 +148,11 @@
 - (void)handleGetDeviceIDForIntegration: (FlutterMethodCall*)call result:(FlutterResult)result {
     NSString* deviceID = [UMConfigure deviceIDForIntegration];
     result(deviceID);
+}
+
+- (void)handleGetMacAddress: (FlutterMethodCall*)call result:(FlutterResult)result {
+    NSString* macAddress = @"00:00:00:00:00:00";
+    result(macAddress);
 }
 
 - (void)handleGetIsJailbroken: (FlutterMethodCall*)call result:(FlutterResult)result {

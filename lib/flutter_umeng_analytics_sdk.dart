@@ -56,6 +56,13 @@ class FlutterUmengAnalyticsSdk {
     return deviceID;
   }
 
+  /// 获取集成测试需要的 Mac 地址
+  /// 仅 Android ，iOS 永远返回 "00:00:00:00:00:00"
+  static Future<String> get macAddress async {
+    final String mac = await _channel.invokeMethod('getMacAddress');
+    return mac;
+  }
+
   /// 判断设备是否越狱，依据是否存在 apt 和 Cydia.app
   /// 仅 iOS, Android 永远返回 false
   static Future<bool> get isJailbroken async {
@@ -77,6 +84,7 @@ class FlutterUmengAnalyticsSdk {
   /// 手动页面时长统计, 记录某个页面展示的时长.
   /// `pageName` 统计的页面名称.
   /// `seconds` 单位为秒，int型.
+  /// 仅 iOS, Android 没有实现，没有对应的 API
   static Future<void> logPageView({
     String pageName,
     int seconds,
@@ -141,6 +149,7 @@ class FlutterUmengAnalyticsSdk {
   /// 自定义事件,开始时长统计.
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
   /// beginEvent , endEvent 要配对使用,也可以自己计时后通过 durations 参数传递进来
+  /// 仅 iOS, Android 没有实现，没有对应的 API
   static Future<void> beginEvent({
     String eventId,
     String label,
@@ -156,6 +165,7 @@ class FlutterUmengAnalyticsSdk {
   /// 自定义事件,结束时长统计.
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
   /// beginEvent , endEvent 要配对使用,也可以自己计时后通过 durations 参数传递进来
+  /// 仅 iOS, Android 没有实现，没有对应的 API
   static Future<void> endEvent({
     String eventId,
     String label,
@@ -168,6 +178,7 @@ class FlutterUmengAnalyticsSdk {
 
   /// 自定义事件，自己计时，需要传毫秒进来
   /// 使用前，请先到友盟 App 管理后台的设置->编辑自定义事件 中添加相应的事件ID，然后在工程中传入相应的事件 ID .
+  /// 仅 iOS, Android 没有实现，没有对应的 API
   static Future<void> eventDurations({
     String eventId,
     int millisecond,
@@ -201,6 +212,6 @@ class FlutterUmengAnalyticsSdk {
 
   /// 停止对 PUID 的统计
   static Future<void> profileSignOff() async {
-    await _channel.invokeMethod('profileSignIn');
+    await _channel.invokeMethod('profileSignOff');
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,8 +11,17 @@ void main() {
 }
 
 void initUmeng() async {
+  String appKey = "";
+  // 测试 appKey
+  if (Platform.isAndroid) {
+    appKey = '5d031a284ca357e055000367';
+  } else if (Platform.isIOS) {
+    appKey = '5d031a483fc1959fb3001069';
+  }
+
+  print(appKey);
   await FlutterUmengAnalyticsSdk.initAnalyticsSdk(
-    appKey: '5d031a483fc1959fb3001069',
+    appKey: appKey,
     channel: 'default',
     encryptEnabled: true,
     crashReportEnabled: true,
@@ -27,6 +37,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _mac = "Unknow";
   String _umid = 'Unknow';
   bool _isJailbroken;
   bool _isPirated;
@@ -39,6 +50,7 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
+    String mac;
     String umid;
     bool isJailbroken;
     bool isPirated;
@@ -46,6 +58,8 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await FlutterUmengAnalyticsSdk.deviceIDForIntegration;
+      mac = await FlutterUmengAnalyticsSdk.macAddress;
+      print('$platformVersion $mac');
       umid = await FlutterUmengAnalyticsSdk.umid;
       isJailbroken = await FlutterUmengAnalyticsSdk.isJailbroken;
       isPirated = await FlutterUmengAnalyticsSdk.isPirated;
@@ -58,6 +72,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _platformVersion = platformVersion;
+      _mac = mac;
       _umid = umid;
       _isJailbroken = isJailbroken;
       _isPirated = isPirated;
@@ -74,6 +89,7 @@ class _MyAppState extends State<MyApp> {
           body: Column(
             children: <Widget>[
               Text('deviceID: $_platformVersion'),
+              Text('Mac: $_mac'),
               Text('UMID: $_umid'),
               Text('isJailbroken: $_isJailbroken'),
               Text('isPirated: $_isPirated'),
